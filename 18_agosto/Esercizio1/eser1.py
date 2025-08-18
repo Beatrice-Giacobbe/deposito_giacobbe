@@ -19,5 +19,5 @@ def freq_parole(testo):
         frequenze = Counter(parole)
         return frequenze
 
-for parola, freq in freq_parole(contenuto).most_common(10):
+for parola, freq in freq_parole(contenuto).most_common(5):
         print(f"{parola}: {freq}")
