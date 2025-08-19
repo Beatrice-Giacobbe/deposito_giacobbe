@@ -2,6 +2,7 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
+from sklearn.metrics import classification_report
 
 path = r"C:\Users\SV273YL\OneDrive - EY\Desktop\datasetConsumption\AEP_hourly.csv"
 df = pd.read_csv(path, parse_dates=["Datetime"])
@@ -45,7 +46,8 @@ df1 = pd.DataFrame({
     "X_test": list(X_test.to_records(index=False)),  # converte le righe in tuple
     "Pred": y_pred
 })
-print(df1.head())
+#print(df1.head())
 
-#df1 = pd.DataFrame({"X_test": X_test,"Pred": y_pred})
-print(df1)
+print("Decision Tree:")
+print(classification_report(y_test, y_pred, digits=3))
+
