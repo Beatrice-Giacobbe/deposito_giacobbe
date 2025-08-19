@@ -12,7 +12,8 @@ df = pd.read_csv(path, sep=";")
 df = df.iloc[:, :-2]
 cols = ["T", "RH", "AH"]
 for col in cols:
-    df[col] = df[col].astype(str).str.replace(",", ".").astype(float)
+    df[col] = df[col].astype(str).str.replace(",", ".").astype(float).clip(lower=0)
+df['PT08.S1(CO)'].clip(lower=0)
 df = df.dropna(subset=["PT08.S1(CO)"])
 print(df)
 
@@ -29,7 +30,7 @@ df["Qualita_aria"] = df.apply(
     lambda row: 1 if row["PT08.S1(CO)"] > row["media_PT08.S1(CO)_giornaliera"] else 0,
     axis=1)
 conteggio = df["Qualita_aria"].value_counts()
-print("Conteggio:",conteggio)
+print("Conteggio prima dello smote:",conteggio)
 print(df.isna().sum().sum())
 
 X = df[["PT08.S1(CO)","T", "RH", "AH"]]
@@ -41,7 +42,7 @@ X_train1, X_test, y_train1, y_test = train_test_split(
     X, y, test_size=0.25, random_state=42, stratify=y)
 smote = SMOTE(random_state=42)
 X_train, y_train = smote.fit_resample(X_train1, y_train1)
-print(y_train.value_counts())
+print("Conteggio dopo dello smote",y_train.value_counts())
 
 tree = DecisionTreeClassifier(max_depth=5, random_state=42)
 tree.fit(X_train, y_train)
