@@ -1,4 +1,8 @@
 
+import pandas as pd
+path = r"C:\Users\SV273YL\OneDrive - EY\Desktop\datasetConsumption\AEP_hourly.csv"
+df = pd.read_csv(path, parse_dates=["Datetime"])
+
 df["Data"] = df["Datetime"].dt.date
 media = df['AEP_MW'].mean()
 print("val medio", media)
