@@ -30,7 +30,6 @@ df["Qualita_aria"] = df.apply(
     lambda row: 1 if row["PT08.S1(CO)"] > row["media_PT08.S1(CO)_giornaliera"] else 0,
     axis=1)
 conteggio = df["Qualita_aria"].value_counts()
-print("Conteggio prima dello smote:",conteggio)
 print(df.isna().sum().sum())
 
 X = df[["PT08.S1(CO)","T", "RH", "AH"]]
@@ -40,6 +39,8 @@ y = df["Qualita_aria"]
 
 X_train1, X_test, y_train1, y_test = train_test_split(
     X, y, test_size=0.25, random_state=42, stratify=y)
+print("Conteggio prima dello smote",y_train1.value_counts())
+
 smote = SMOTE(random_state=42)
 X_train, y_train = smote.fit_resample(X_train1, y_train1)
 print("Conteggio dopo dello smote",y_train.value_counts())
@@ -53,6 +54,7 @@ print("DECISION TREEE:\n", classification_report(y_test, y_pred, digits=3))
 model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
 model.fit(X_train, y_train)
 y_pred1 = model.predict(X_test)
+print("RANDOM FOREST:\n", classification_report(y_test, y_pred1, digits=3))
 
 """
 #con REGRESSIONE LOGISTICA
