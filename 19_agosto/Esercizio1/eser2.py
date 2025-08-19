@@ -1,10 +1,10 @@
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.tree import DecisionTreeClassifier
+from sklearn.tree import DecisionTreeClassifier, plot_tree
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from imblearn.over_sampling import SMOTE
+import matplotlib.pyplot as plt
 
 df = pd.read_csv("AirQualityUCI.csv", sep=";")
 
@@ -49,6 +49,11 @@ tree = DecisionTreeClassifier(max_depth=5, random_state=42)
 tree.fit(X_train, y_train)
 y_pred = tree.predict(X_test)
 print("DECISION TREEE:\n", classification_report(y_test, y_pred, digits=3))
+
+plt.figure(figsize=(18, 10))
+plot_tree(tree, feature_names=X.columns, class_names=["Basso", "Alto"], filled=True)
+plt.title("Albero Decisionale")
+plt.show()
 
 #con RANDOM FOREST
 model = RandomForestClassifier(n_estimators=100, max_depth=5, random_state=42)
