@@ -5,8 +5,8 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report
 from imblearn.over_sampling import SMOTE
-path = r"C:\Users\SV273YL\Downloads\archive (1)\AirQualityUCI.csv"
-df = pd.read_csv(path, sep=";")
+
+df = pd.read_csv("AirQualityUCI.csv", sep=";")
 
 #pre-processing
 df = df.iloc[:, :-2]
@@ -69,7 +69,7 @@ y_pred2 = logreg.predict(X_test)
 
 #se volessi fare per media settimanale, calcolo la media settimanale dell'inquinante
 #e poi è tutto uguale
-df1 = pd.read_csv(path, sep=";")
+df1 = pd.read_csv("AirQualityUCI.csv", sep=";")
 df1["Datetime"] = pd.to_datetime(
     df1["Date"].astype(str) + " " + df1["Time"].astype(str),
     format="%d/%m/%Y %H.%M.%S",  # il tuo formato: 10/03/2004 18.00.00
