@@ -32,7 +32,7 @@ df["target_giornaliero"] = df.apply(lambda row: classifica(row, row["media_giorn
 print(df.head(5))
 
 #con decision tree
-x = df[['Giorno', 'Giorno_settimana']]
+x = df[['Giorno','Giorno_settimana']]
 y = df['target_giornaliero']
 X_train, X_test, y_train, y_test = train_test_split(
     x, y, stratify=y, test_size=0.25, random_state=42
@@ -46,7 +46,7 @@ df1 = pd.DataFrame({
     "X_test": list(X_test.to_records(index=False)),  # converte le righe in tuple
     "Pred": y_pred
 })
-#print(df1.head())
+print(df1.head())
 
 print("Decision Tree:")
 print(classification_report(y_test, y_pred, digits=3))
