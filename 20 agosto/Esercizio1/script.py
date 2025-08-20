@@ -4,7 +4,7 @@ from sklearn.cluster import KMeans
 import matplotlib.pyplot as plt
 from sklearn.decomposition import PCA
 import matplotlib
-matplotlib.use("TkAgg") 
+#matplotlib.use("TkAgg") 
 df = pd.read_csv("Mall_Customers.csv", sep=",")
 print(df.isna().sum().sum())        #non ci sono nan
 print(df.describe())
