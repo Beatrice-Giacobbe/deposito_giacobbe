@@ -40,10 +40,8 @@ plt.grid(True)
 plt.show()
 scaler = StandardScaler()
 data = scaler.fit_transform(x)
-kmeans = KMeans(n_clusters=5, random_state=42)
+kmeans = KMeans(n_clusters=10, random_state=42)
 labels = kmeans.fit_predict(data)
-
-
 
 plt.figure(figsize=(6, 6))
 plt.scatter(data[:, 0], data[:, 1], c=labels, cmap='viridis')
@@ -55,3 +53,10 @@ plt.ylabel("Spending score")
 plt.legend()
 plt.grid(True)
 plt.show()
+
+#individuare cluster con clienti con alto reddito e alto score
+centroidi = kmeans.cluster_centers_
+print(centroidi)
+
+sum_cent = [c[0] + c[1] for c in centroidi]
+print("cluster con clienti con alto reddito è il cluster n." sum_cent.index(max(sum_cent))+1)
