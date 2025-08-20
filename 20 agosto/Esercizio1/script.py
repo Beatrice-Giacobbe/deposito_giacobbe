@@ -59,4 +59,11 @@ centroidi = kmeans.cluster_centers_
 print(centroidi)
 
 sum_cent = [c[0] + c[1] for c in centroidi]
-print("cluster con clienti con alto reddito è il cluster n." sum_cent.index(max(sum_cent))+1)
+cluster_max = sum_cent.index(max(sum_cent))
+print("cluster con clienti con alto reddito è il cluster n.", cluster_max+1)
+
+df["cluster"] = labels
+
+#recupero i clienti del cluster con centroide max
+cluster10_clients = df[df["cluster"] == cluster_max]
+print(cluster10_clients)
