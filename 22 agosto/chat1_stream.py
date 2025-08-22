@@ -2,6 +2,7 @@ import os
 from dotenv import load_dotenv
 from openai import AzureOpenAI
 
+#usa gpt 3.5-turbo che permette la chatcompletions
 # Carica le variabili dal file .env
 load_dotenv()
 client = AzureOpenAI(

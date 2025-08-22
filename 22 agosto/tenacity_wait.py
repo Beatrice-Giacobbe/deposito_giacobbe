@@ -3,6 +3,7 @@ from dotenv import load_dotenv
 from openai import AzureOpenAI
 from tenacity import retry, wait_exponential, stop_after_attempt
 
+#uso gpt3.5-turbo
 # Carica le variabili dal file .env
 load_dotenv()
 client = AzureOpenAI(
@@ -23,7 +24,6 @@ def ask():
         messages=[{"role": "user", "content": "Cos'è il backoff esponenziale?"}],
         temperature=0.7,
         max_tokens=200,
-        stream=True
     )
 
 response = ask()
