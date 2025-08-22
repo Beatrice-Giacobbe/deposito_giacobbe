@@ -4,7 +4,7 @@ import spacy
 nlp = spacy.load("it_core_news_sm")
 
 # Testo da analizzare
-testo = "Scrivi una poesia su un gatto che cammina sul tetto."
+testo = "Analizza grammaticalmente la frase: Il gatto mangia il pesce"
 
 # Analisi
 doc = nlp(testo)

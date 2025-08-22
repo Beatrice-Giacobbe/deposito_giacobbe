@@ -3,6 +3,11 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.metrics import classification_report
+from sklearn.model_selection import GridSearchCV
+from sklearn.model_selection import StratifiedKFold, cross_val_score
+import optuna
+from sklearn.model_selection import cross_val_score
+
 
 path = r"C:\Users\SV273YL\OneDrive - EY\Desktop\datasetConsumption\AEP_hourly.csv"
 df = pd.read_csv(path, parse_dates=["Datetime"])
@@ -51,3 +56,37 @@ print(df1.head())
 print("Decision Tree:")
 print(classification_report(y_test, y_pred, digits=3))
 
+#grid search
+skf = StratifiedKFold(n_splits=5, shuffle=True, random_state=42)
+
+param_grid = {
+    "max_depth": [3, 5, 7],
+    "min_samples_split": [2, 5, 10]
+}
+grid_search = GridSearchCV(tree, param_grid, cv=skf, scoring="roc_auc", n_jobs=-1)
+grid_search.fit(X_train, y_train)
+auc_tree = cross_val_score(tree, X_train, y_train, cv=skf, scoring="roc_auc")
+
+print("Migliori parametri GridSearch:", grid_search.best_params_)
+print("Miglior AUC GridSearch:", grid_search.best_score_)
+
+#optuna
+
+def objective(trial):
+    max_depth = trial.suggest_int("max_depth", 3, 10)
+    min_samples_split = trial.suggest_int("min_samples_split", 2, 20)
+
+    model = DecisionTreeClassifier(
+        max_depth=max_depth,
+        min_samples_split=min_samples_split,
+        random_state=42
+    )
+
+    auc = cross_val_score(model, X_train, y_train, cv=skf, scoring="roc_auc").mean()
+    return auc
+
+study = optuna.create_study(direction="maximize")
+study.optimize(objective, n_trials=10)
+
+print("Migliori parametri Optuna:", study.best_params)
+print("Miglior AUC Optuna:", study.best_value)
